@@ -1,0 +1,185 @@
+html, div, ul, ol {
+  margin: 0; }
+
+body {
+  margin: 0;
+  background-color: black;
+  font-size: 1em;
+  overflow: hidden; }
+
+li {
+  display: inline-block; }
+
+img {
+  height: 100%;
+  width: 100%; }
+
+input {
+  height: 30px;
+  width: 90%;
+  font-size: 1em;
+  padding: 0 5px;
+  color: yellow;
+  background-color: black; }
+
+select {
+  height: 30px;
+  width: 90%;
+  font-size: 1em;
+  padding: 0 5px;
+  color: yellow;
+  background-color: black; }
+
+h1 {
+  margin: 5px;
+  font-size: 2em;
+  color: yellow;
+  text-shadow: -1px 1px white; }
+
+h2 {
+  margin: 5px;
+  font-size: 1.25em;
+  color: yellow;
+  text-shadow: -1px 1px grey; }
+
+hp {
+  margin: 5px;
+  font-size: 1.25em;
+  color: yellow;
+  text-shadow: -1px 1px black; }
+
+pop {
+  color: red;
+  font-size: 1.1em;
+  font-weight: 700;
+  margin: 5px 0; }
+
+popGreen {
+  color: lightgreen;
+  font-size: 1.1em;
+  font-weight: 700;
+  margin: 5px 0; }
+
+#battleLog {
+  height: 300px;
+  background-color: black;
+  overflow-y: scroll;
+  padding: 10px 20px;
+  text-align: center; }
+
+#pImageHolder {
+  height: 300px; }
+
+#btnClose {
+  cursor: pointer;
+  text-align: center; }
+
+.wrapper {
+  margin: 20px 0; }
+
+.playerCard {
+  text-align: center;
+  background-color: black;
+  padding: 20px; }
+
+#playerSetup {
+  position: fixed;
+  height: 500px;
+  top: 60px; }
+
+#pressStart {
+  cursor: pointer;
+  height: 50px; }
+
+#startFooter {
+  position: absolute;
+  bottom: 10%; }
+
+#attackBtn {
+  padding: 0;
+  cursor: pointer;
+  height: 100%; }
+
+#attack {
+  padding: 0;
+  height: 100%; }
+
+#chooseCharacter {
+  padding: 0;
+  background-color: black;
+  height: 100%; }
+
+.infoCard {
+  text-align: center;
+  border: 2px solid lightgrey;
+  background-color: lightblue;
+  width: 400px;
+  margin: 0 10px;
+  padding: 20px;
+  display: inline-block; }
+
+.is-hidden {
+  display: none; }
+
+.playerImage {
+  width: 200px;
+  height: 300px; }
+
+.coolBorderBro {
+  border: 1px solid white;
+  outline: 2px solid yellow; }
+
+.winBorderBro {
+  border: 10px solid yellow;
+  outline: 10px solid green; }
+
+/* The Modal (background) */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100% px;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4); }
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: black;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  height: 22%;
+  width: 80%; }
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold; }
+
+.close:hover {
+  color: black;
+  text-decoration: none;
+  cursor: pointer; }
+
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer; }
+
+.hpBackground {
+  background-color: red;
+  width: 100%; }
+
+.proggy {
+  width: 100%;
+  height: 30px; }
+
+.third-td {
+  height: 33%; }
+
+/*# sourceMappingURL=styles.css.map */

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>!!Battle Bots!!</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+
+	<!-- WRAPPER FOR EVERYTHING PLAYER SETUP -->
+	<div id='playerSetup' class='container col-md-12'>
+
+		<div class="col-md-2 coolBorderBro playerCard">
+			<h1>PLAYER 1:</h1>
+			<h2>Enter Robot Name:</h2>
+			<input id="txtP1Name" placeholder="Enter Player1 Name">
+			<h2>Select Robot Type</h2>
+			<select id="p1Select">
+				<option disabled selected="">Select Robot Type:</option>
+				<option disabled>---------------------------------</option>
+				<option disabled>&nbsp;</option>
+				<option disabled>Mini-Tanks:</option>
+				<option value="Johnny5">Johhny 5</option>
+				<option value="WallE">Wall-E</option>
+				<option disabled>&nbsp;</option>
+				<option disabled>Tripods:</option>
+				<option disabled>--------------------------------</option>
+				<option value="R2D2">R2D2</option>
+				<option value="R2BRO2">R2BRO2</option>
+				<option disabled>&nbsp;</option>
+				<option disabled>Bipedals:</option>
+				<option disabled>--------------------------------</option>
+				<option value="Bender">Bender</option>
+				<option value="BayMax">BayMax</option>
+			</select>
+			<div id='Player1Desc' class='playerDescription'>
+	    	<hr/>
+	    	<h2>
+	    	<pop>Please Choose a</pop><br/>
+	    	<popGreen>Robot Type</popGreen>
+	    	</h2>
+		</div>
+		</div>
+
+		<div class='coolBorderBro col-md-6 col-md-offset-1' id='chooseCharacter'>
+			<img src='../res/backgrounds/MK_Character_Select.png'>
+		</div>
+
+		<div class="col-md-2 col-md-offset-1 coolBorderBro playerCard">
+			<h1>PLAYER 2:</h1>
+			<h2>Enter Robot Name:</h2>
+			<input id="txtP2Name" placeholder="Enter Player2 Name">
+			<h2>Select Robot Type</h2>
+			<select id="p2Select">
+				<option disabled selected="">Select Robot Type:</option>
+				<option disabled>---------------------------------</option>
+				<option disabled>&nbsp;</option>
+				<option disabled>Mini-Tanks:</option>
+				<option value="Johnny5">Johhny 5</option>
+				<option value="WallE">Wall-E</option>
+				<option disabled>&nbsp;</option>
+				<option disabled>Tripods:</option>
+				<option disabled>--------------------------------</option>
+				<option value="R2D2">R2D2</option>
+				<option value="R2BRO2">R2BRO2</option>
+				<option disabled>&nbsp;</option>
+				<option disabled>Bipedals:</option>
+				<option disabled>--------------------------------</option>
+				<option value="Bender">Bender</option>
+				<option value="BayMax">BayMax</option>
+			</select>
+			<div id='Player2Desc' class='playerDescription'>
+	    	<hr/>
+	    	<h2>
+	    	<pop>Please Choose a</pop><br/>
+	    	<popGreen>Robot Type</popGreen>
+	    	</h2>
+			</div>
+
+		</div>
+
+		<!-- FOOTER FOR PRESS START BUTTON -->
+	</div>
+
+		<div class='container col-md-12' id='startFooter'>
+			<div id='pressStart' class='col-md-4 col-md-offset-4'>
+				<img id='pressStartBtn' src='../res/press_start.png' class='col-md-12'>
+			</div>
+		</div>
+	
+
+
+
+<!-- WRAPPER FOR EVERYTHING BATTLEGROUND-->
+	<div id='battleArena' class='container col-md-12 hidden'>
+
+		<!-- WRAPPER FOR HEALTH/INFO -->
+		<div class='container'>
+			
+			<div id='Player1Info' class='col-md-5'>
+				<ul>
+					<li id='Player1NameLi'>
+					</li>
+					<li>
+	  				<hp></hp>
+	  			</li>
+	  		</ul>
+				<div class='hpBackground proggy coolBorderBro'>
+					<div id="Player1Health" class="proggy progress-bar progress-bar-success" role="progressbar" aria-valuenow="100"
+	  				aria-valuemin="0" aria-valuemax="100">
+	    		</div>
+	    	</div>
+			</div>
+			
+
+			<div id='Player2Info' class='col-md-5 col-md-offset-2'>
+				<ul>
+					<li id='Player2NameLi'>
+					</li>
+					<li>
+	  				<hp></hp>
+	  			</li>
+	  		</ul>
+				<div class='hpBackground proggy coolBorderBro'>
+					<div id="Player2Health" class="proggy progress-bar progress-bar-success" role="progressbar" aria-valuenow="100"
+	  				aria-valuemin="0" aria-valuemax="100">
+	    		</div>
+	    	</div>
+			</div>
+		</div>
+		<!-- END WRAPPER FOR HEALTH/INFO -->
+
+		<!-- WRAPPER FOR PLAYER IMAGES -->
+		<div id='imageWrapper' class='col-md-12 wrapper'>
+			
+			<div class='col-md-2 col-md-offset-2 pImageHolder'>
+				<img id="player1Image" class="playerImage coolBorderBro">
+			</div>
+		
+
+			<div id='attack' class='col-md-2 col-md-offset-1'>
+				<img id='attackBtn' src='../res/attack.jpg' class='col-md-12'>
+			</div>
+
+			<div class='col-md-2 col-md-offset-1 pImageHolder'>
+				<img id="player2Image" class="playerImage coolBorderBro">
+			</div>
+		
+		</div>
+
+		<!-- WRAPPER FOR BATTLE LOG -->
+		<div class='col-md-10 col-md-offset-1'>
+			<div id="battleLog" class='col-md-12 coolBorderBro'>
+			</div>
+		</div>
+
+		<!-- MODAL STUFF?? -->
+	<!-- 	<div id="winnerModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="false">
+		  <div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		      <h2></h2>
+		    </div>
+		  </div>
+		</div> -->
+
+		<div id="myModal" class="modal">
+
+		  <!-- Modal content -->
+		  <div class="modal-content">
+		    <h2></h2>
+		    <div id='btnClose' class='coolBorderBro col-md-offset-4 col-md-4'><h1>Fight Again!!</h1></div>
+		  </div>
+
+		</div>
+
+	</div>
+<script src="dist/app.js"></script>
+</body>
+</html>
