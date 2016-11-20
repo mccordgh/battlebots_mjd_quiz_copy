@@ -23,7 +23,7 @@ Models.Johnny5 = function(){
   this.highDamage = 40;
 	this.name = "Johnny5";
 	this.skill = "Heat Vision";
-	this.url = "../battlebots_mjd_quiz_copy/res/johnny5.jpg";
+	this.url = "http://mccordgh.github.io/battlebots_mjd_quiz_copy/res/johnny5.jpg";
 };
 Models.Johnny5.prototype = new MiniTank();
 
