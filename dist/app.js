@@ -4,16 +4,147 @@
 let roundCounter = 0,
 		p1MaxHP = 666,
 		p2MaxHP = 666,
-		interval;
+		loc = window.location.pathname;
 
+const CURRENT_DIRECTORY = loc.substring(0, loc.lastIndexOf('/'));
+
+//import Robots object, and jquery
 let Robots = require('./Robot.js'),
 		$ = require('jquery'),
-		Player1 = new Robots.Player(),
-		Player2 = new Robots.Player();
 
+//create player1 and 2
+Player1 = new Robots.Player(),
+Player2 = new Robots.Player();
+
+//initial function run when document is ready
 $(function(){
+	initEvents();
+	$('#txtP1Name').focus();
+});
 
-	$('#pressStartBtn').click((event) => {
+//when press start is clicked, sets up the arena,  hides character select, and then displays it
+function arenaSetup(){
+	Player1.setName($('#txtP1Name').val());
+	Player2.setName($('#txtP2Name').val());
+	Player2.setType($('#p2Select').val());
+
+	$('#Player1NameLi').html(`<h1>${Player1.playerName}</h1>`);
+	$('#Player2NameLi').html(`<h1>${Player2.playerName}</h1>`);
+	
+	$('#player1Image').attr('src', Player1.type.url);
+	$('#player2Image').attr('src', Player2.type.url);
+
+	p1MaxHP = Player1.type.health;
+	p2MaxHP = Player2.type.health;
+	updateHealth();
+
+	$('#playerSetup').addClass('hidden');
+	$('#startFooter').addClass('hidden');
+
+	$('#attackBtn').click(() => {
+		fight();
+	});
+
+$('#battleLog').html(`<br/><h2>~~~~~~~~~~~~~~~~~ PRESS THE <popGreen>ATTACK</popGreen> BUTTON TO BEGIN!! ~~~~~~~~~~~~~~~~~</h2>`);
+	randomizeBG();
+	$('#battleArena').removeClass('hidden');
+}
+
+//check if user has entered name and selected a robot type for Player 1 and Player 2
+function evalUserInput(){
+	if ($('#txtP1Name').val() !== "" && $('#txtP2Name').val() !== "" && $('#p1Select').val() !== null && $('#p2Select').val() !== null) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+//Calls the function to execute one round of attacking for each Player, then checks if any Player dropped below 0
+function fight(){
+	roundCounter++;
+	attacks(Player1, Player2);
+	updateHealth();
+	let winnerStr = "",
+			winner = "",
+			loser = "";
+
+	if (Player1.type.health < 1 && Player2.type.health < 1){
+		winnerStr = `<h1>DRAW!!</h1><h1><pop>${Player1.playerName}</pop> and <pop>${Player2.playerName}</pop> have both been <popGreen>defeated</popGreen>!!`;
+		loser = 'both';
+		winner = 'none';
+	} else if (Player1.type.health < 1 && Player2.type.health > 0){
+		loser = "player1";
+		winner = "player2";
+		winnerStr = `<h1>VICTORY!!</h1><h1><pop>${Player2.playerName}</pop> has defeated <pop>${Player1.playerName}</pop> with <popGreen>${Player2.type.skill}</popGreen>!!</h1>`;
+	} else if (Player2.type.health < 1 && Player1.type.health > 0){
+		winnerStr = `<h1>VICTORY!!</h1><h1><pop>${Player1.playerName}</pop> has defeated <pop>${Player2.playerName}</pop> with <popGreen>${Player1.type.skill}</popGreen>!!</h1>`;
+		loser = "player2";
+		winner = "player1";
+	}
+
+	if (winnerStr !== ""){
+		declareWinner(winnerStr, loser, winner);
+	}
+}
+
+//Places a random background image in to battle arena
+function randomizeBG(){
+	console.log("loc", loc);
+	console.log("CURRENT_DIRECTORY", CURRENT_DIRECTORY);
+	let rndBG = Math.floor(Math.random() * 6) + 1;
+	let rndBGstr = `${CURRENT_DIRECTORY}/res/backgrounds/mkbg${rndBG}.jpg`;
+	$('body').css('background-image', `url('${rndBGstr}')`);	
+}
+	
+//executes a round of attacking for each player
+function attacks(_attacker, _defender){
+	let dmg1 = Math.floor(Math.random() * (_attacker.type.highDamage - _attacker.type.lowDamage + 1)) + _attacker.type.lowDamage;
+	_defender.type.health -= dmg1;
+	let dmg2 = Math.floor(Math.random() * (_defender.type.highDamage - _defender.type.lowDamage + 1)) + _defender.type.lowDamage;
+	_attacker.type.health -= dmg1;
+	
+	$('#battleLog').html(`<br/>
+		<h2>~~~~~~~~~~~~~~~~~ ROUND ${roundCounter} ~~~~~~~~~~~~~~~~~</h2>
+		<br/>
+		<h2><pop>${_defender.playerName}</pop> attacks <pop>${_attacker.playerName}</pop> with <pop>${_defender.type.skill}</pop> for <popGreen>${dmg1}</popGreen> damage!</h2>
+		<br/>
+		<h2><br/><pop>${_attacker.playerName}</pop> attacks <pop>${_defender.playerName}</pop> with <pop>${_attacker.type.skill}</pop> for <popGreen>${dmg2}</popGreen> damage!</h2>
+		<br/>
+		<h2>~~~~~~~~~~~~~~~~~ PRESS THE <popGreen>ATTACK</popGreen> BUTTON TO ATTACK AGAIN!! ~~~~~~~~~~~~~~~~~</h2>
+	`);
+}
+
+//updates health totals and health bars
+function updateHealth(){
+	let p1Health = Player1.type.health > 0 ? Player1.type.health : 0;
+	let p2Health = Player2.type.health > 0 ? Player2.type.health : 0;
+	
+	$('#Player1Info hp').html(` <pop>~</pop> [<popGreen>${Player1.type.name}</popGreen> unit] <pop>~</pop> ${p1Health} / ${p1MaxHP}`);
+	$('#Player2Info hp').html(` <pop>~</pop> [<popGreen>${Player2.type.name}</popGreen> unit] <pop>~</pop> ${p2Health} / ${p2MaxHP}`);
+
+	let hp1Percent = Math.ceil((p1Health * 100) / p1MaxHP);
+	let hp2Percent = Math.ceil((p2Health * 100) / p2MaxHP);
+
+	$('#Player1Health').css('width', `${hp1Percent}%`);
+	$('#Player2Health').css('width', `${hp2Percent}%`);
+}
+
+//declares winner in a popup modal
+function declareWinner(_winString, _losers, _winner){
+	$('#battleLog').fadeToggle(500);
+
+	fadeLosers(_losers);
+
+	$('#myModal h2').html(`${_winString}<br/>`);
+	$('#btnClose').click(() => {
+		window.location.reload();
+	});
+	$('#myModal').css('display', 'block');
+}
+
+//initializes event listeners where needed
+function initEvents(){
+	$('#pressStartBtn').click(() => {
 		if (evalUserInput()) {
 			arenaSetup();
 		} else {
@@ -30,135 +161,24 @@ $(function(){
 		Player2.setType($('#p2Select').val());
 		$('#Player2Desc').html(Player2.toString());
 	});
-
-	$('#txtP1Name').focus();
-});
-
-function arenaSetup(){
-	
-	Player1.setName($('#txtP1Name').val());
-	Player2.setName($('#txtP2Name').val());
-	Player2.setType($('#p2Select').val());
-
-	$('#Player1NameLi').html(`<h1>${Player1.playerName}</h1>`);
-	$('#Player2NameLi').html(`<h1>${Player2.playerName}</h1>`);
-	
-	$('#player1Image').attr('src', Player1.type.url);
-	$('#player2Image').attr('src', Player2.type.url);
-
-	p1MaxHP = Player1.type.health;
-	p2MaxHP = Player2.type.health;
-	$('#Player1Info hp').html(`${p1MaxHP} / ${p1MaxHP}`);
-	$('#Player2Info hp').html(`${p2MaxHP} / ${p2MaxHP}`);
-	$('#Player1Health hp').html(`${Player1.type.health} / ${p1MaxHP}`);
-	$('#Player2Health hp').html(`${Player2.type.health} / ${p2MaxHP}`);
-
-	document.body.setAttribute('background-size', 'cover');
-
-	$('#playerSetup').addClass('hidden');
-	$('#startFooter').addClass('hidden');
-
-	$('#attackBtn').click((event) => {
-		fight();
-	});
-
-$('#battleLog').html(`<br/><h2>~~~~~~~~~~~~~~~~~ PRESS THE <popGreen>ATTACK</popGreen> BUTTON TO BEGIN!! ~~~~~~~~~~~~~~~~~</h2>`);
-	randomizeBG();
-	$('#battleArena').removeClass('hidden');
 }
 
-function evalUserInput(){
-	if ($('#txtP1Name').val() !== "" && $('#txtP2Name').val() !== "" && $('#p1Select').val() !== null && $('#p2Select').val() !== null) {
-		return true;
-	} else {
-		return false;
+//fade out the loser or losers image
+function fadeLosers(_losers){	
+	switch (_losers) {
+	case 'player1':
+		$('#player2Image').removeClass('coolBorderBro').addClass('winBorderBro');
+		$('#player1Image').fadeToggle(5000);
+		break;
+	case 'player2':
+		$('#player1Image').removeClass('coolBorderBro').addClass('winBorderBro');
+		$('#player2Image').fadeToggle(5000);
+		break;
+	case 'both':
+		$('#player1Image').fadeToggle(5000);
+		$('#player2Image').fadeToggle(5000);
+		break;
 	}
-}
-
-function fight(){
-	roundCounter++;
-	attacks(Player1, Player2);
-	updateHealth();
-	let winnerStr = "",
-			loser = "";
-
-	if (Player1.type.health < 1 && Player2.type.health < 1){
-		winnerStr = `<h1>DRAW!!</h1><h1><pop>${Player1.playerName}</pop> and <pop>${Player2.playerName}</pop> have both been <popGreen>defeated</popGreen>!!`;
-		loser = 'both';
-	} else if (Player1.type.health < 1 && Player2.type.health > 0){
-		loser = "player1";
-		winnerStr = `<h1>VICTORY!!</h1><h1><pop>${Player2.playerName}</pop> has defeated <pop>${Player1.playerName}</pop> with <popGreen>${Player2.type.skill}</popGreen>!!</h1>`;
-	} else if (Player2.type.health < 1 && Player1.type.health > 0){
-		winnerStr = `<h1>VICTORY!!</h1><h1><pop>${Player1.playerName}</pop> has defeated <pop>${Player2.playerName}</pop> with <popGreen>${Player1.type.skill}</popGreen>!!</h1>`;
-		loser = "player2";
-	}
-
-	if (winnerStr !== ""){
-		declareWinner(winnerStr, loser);
-	}
-
-}
-
-function randomizeBG(){
-	let rndBG = Math.floor(Math.random() * 7) + 1;
-	let rndBGstr = `../res/backgrounds/mkbg${rndBG}.jpg`;
-	$('battleArena').css('background-image', `url('${rndBGstr}')`);	
-}
-	
-function attacks(_attacker, _defender){
-	let dmg1 = Math.floor(Math.random() * (_attacker.type.highDamage - _attacker.type.lowDamage + 1)) + _attacker.type.lowDamage;
-	_defender.type.health -= dmg1;
-	let dmg2 = Math.floor(Math.random() * (_defender.type.highDamage - _defender.type.lowDamage + 1)) + _defender.type.lowDamage;
-	_attacker.type.health -= dmg1;
-		$('#battleLog').html(`<br/>
-			<h2>~~~~~~~~~~~~~~~~~ ROUND ${roundCounter} ~~~~~~~~~~~~~~~~~</h2>
-			<br/>
-			<h2><pop>${_defender.playerName}</pop> attacks <pop>${_attacker.playerName}</pop> with <pop>${_defender.type.skill}</pop> for <popGreen>${dmg1}</popGreen> damage!</h2>
-			<br/>
-			<h2><br/><pop>${_attacker.playerName}</pop> attacks <pop>${_defender.playerName}</pop> with <pop>${_attacker.type.skill}</pop> for <popGreen>${dmg2}</popGreen> damage!</h2>
-			<br/>
-			<h2>~~~~~~~~~~~~~~~~~ PRESS THE <popGreen>ATTACK</popGreen> BUTTON TO ATTACK AGAIN!! ~~~~~~~~~~~~~~~~~</h2>
-		`);
-}
-
-function updateHealth(){
-	let p1Health = Player1.type.health > 0 ? Player1.type.health : 0;
-	let p2Health = Player2.type.health > 0 ? Player2.type.health : 0;
-	
-	$('#Player1Info hp').html(`${p1Health} / ${p1MaxHP}`);
-	$('#Player2Info hp').html(`${p2Health} / ${p2MaxHP}`);
-
-	let hp1Percent = Math.ceil((p1Health * 100) / p1MaxHP);
-	let hp2Percent = Math.ceil((p2Health * 100) / p2MaxHP);
-
-	$('#Player1Health').css('width', `${hp1Percent}%`);
-	$('#Player2Health').css('width', `${hp2Percent}%`);
-}
-
-function declareWinner(winString, loser){
-	$('#battleLog').fadeToggle(500);
-
-	switch (loser) {
-		case 'player1':
-			$('#player2Image').removeClass('coolBorderBro').addClass('winBorderBro');
-			$('#player1Image').fadeToggle(3000);
-			break;
-		case 'player2':
-			$('#player1Image').removeClass('coolBorderBro').addClass('winBorderBro');
-			$('#player2Image').fadeToggle(3000);
-			break;
-		case 'both':
-			$('#player1Image').fadeToggle(3000);
-			$('#player2Image').fadeToggle(3000);
-			break;
-	}
-
-
-	$('#myModal h2').html(`${winString}<br/>`);
-	$('#btnClose').click((event) => {
-		window.location.reload();
-	});
-	$('#myModal').css('display', 'block');
 }
 },{"./Robot.js":2,"jquery":4}],2:[function(require,module,exports){
 "use strict";
@@ -204,7 +224,10 @@ module.exports = BattleBots;
 },{"./RobotModels.js":3}],3:[function(require,module,exports){
 "use strict";
 
-let Models = {};
+let Models = {},
+		loc = window.location.pathname;
+
+const CURRENT_DIRECTORY = loc.substring(0, loc.lastIndexOf('/'));
 
 let RobotModel = function() {
   this.name = "ketchup robot";
@@ -212,8 +235,7 @@ let RobotModel = function() {
   this.health = 9999;
   };
 
-// Mini Tank types
-
+// Mini Tank types ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 let MiniTank = function(){
 	this.name = "MiniTank default";
 };
@@ -222,29 +244,28 @@ MiniTank.prototype = new RobotModel();
 Models.Johnny5 = function(){
 	this.lowHealth = 50;
 	this.highHealth = 200;
-	this.health = Math.floor(Math.random() * (this.highHealth - this.lowHealth + 1)) + this.lowHealth;
+	this.health = (Math.floor(Math.random() * (this.highHealth - this.lowHealth + 1)) + this.lowHealth) + 150;
   this.lowDamage = 30;
-  this.highDamage = 40;
+  this.highDamage = 60;
 	this.name = "Johnny5";
 	this.skill = "Heat Vision";
-	this.url = "../res/Johnny5.jpg";
+	this.url = `${CURRENT_DIRECTORY}/res/Johnny5.jpg`;
 };
 Models.Johnny5.prototype = new MiniTank();
 
 Models.WallE = function(){
 	this.lowHealth = 100;
 	this.highHealth = 160;
-	this.health = Math.floor(Math.random() * (this.highHealth - this.lowHealth + 1)) + this.lowHealth;
+	this.health = (Math.floor(Math.random() * (this.highHealth - this.lowHealth + 1)) + this.lowHealth) + 150;
   this.lowDamage = 35;
   this.highDamage = 38;
 	this.name = "Wall-E";
 	this.skill = "Adoreableness";
-	this.url = "../res/WallE.jpg";
+	this.url = `${CURRENT_DIRECTORY}/res/WallE.jpg`;
 };
 Models.WallE.prototype = new MiniTank();
 
-// Tripod types
-
+// Tripod types ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 let Tripod = function(){
 	this.name = "Tripod Default";
 	this.skill = "Tripod Default";
@@ -254,29 +275,28 @@ Tripod.prototype = new RobotModel();
 Models.R2D2 = function(){
 	this.lowHealth = 125;
 	this.highHealth = 160;
-	this.health = Math.floor(Math.random() * (this.highHealth - this.lowHealth + 1)) + this.lowHealth;
+	this.health = (Math.floor(Math.random() * (this.highHealth - this.lowHealth + 1)) + this.lowHealth) + 150;
   this.lowDamage = 5;
   this.highDamage = 80;
 	this.name = "R2D2";
 	this.skill = "Soldering Iron";
-	this.url = '../res/R2D2.jpg';
+	this.url = `${CURRENT_DIRECTORY}/res/R2D2.jpg`;
 };
 Models.R2D2.prototype = new Tripod();
 
 Models.R2BRO2 = function(){
 	this.lowHealth = 80;
 	this.highHealth = 180;
-	this.health = Math.floor(Math.random() * (this.highHealth - this.lowHealth + 1)) + this.lowHealth;
+	this.health = (Math.floor(Math.random() * (this.highHealth - this.lowHealth + 1)) + this.lowHealth) + 150;
   this.lowDamage = 15;
   this.highDamage = 70;
 	this.name = "R2BRO2";
 	this.skill = "Keg Chuck";
-	this.url = '../res/R2BRO2.jpg';
+	this.url = `${CURRENT_DIRECTORY}/res/R2BRO2.jpg`;
 };
 Models.R2BRO2.prototype = new Tripod();
 
-// Bipedal Types
-
+// Bipedal Types ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 let Bipedal = function(){
 	this.name = "Bipedal";
 	this.skill = "Mobility";
@@ -286,27 +306,26 @@ Bipedal.prototype = new RobotModel();
 Models.Bender = function(){
 	this.lowHealth = 70;
 	this.highHealth = 190;
-	this.health = Math.floor(Math.random() * (this.highHealth - this.lowHealth + 1)) + this.lowHealth;
+	this.health = (Math.floor(Math.random() * (this.highHealth - this.lowHealth + 1)) + this.lowHealth) + 150;
   this.lowDamage = 20;
-  this.highDamage = 60;
+  this.highDamage = 70;
 	this.name = "Bender";
 	this.skill = "Bending";
-	this.url = '../res/Bender.jpg';
+	this.url = `${CURRENT_DIRECTORY}/res/Bender.jpg`;
 };
 Models.Bender.prototype = new Bipedal();
 
 Models.BayMax = function(){
 	this.lowHealth = 40;
 	this.highHealth = 230;
-	this.health = Math.floor(Math.random() * (this.highHealth - this.lowHealth + 1)) + this.lowHealth;
+	this.health = (Math.floor(Math.random() * (this.highHealth - this.lowHealth + 1)) + this.lowHealth) + 150;
   this.lowDamage = 25;
   this.highDamage = 50;
 	this.name = "BayMax";
 	this.skill = "Anti Heal";
-	this.url = '../res/BayMax.jpg';
+	this.url = `${CURRENT_DIRECTORY}/res/BayMax.jpg`;
 };
 Models.BayMax.prototype = new Bipedal();
-
 
 module.exports = Models;
 },{}],4:[function(require,module,exports){

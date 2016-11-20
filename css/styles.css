@@ -3,9 +3,12 @@ html, div, ul, ol {
 
 body {
   margin: 0;
-  background-color: black;
+  background-image: url("../res/backgrounds/mkbg8.jpg");
   font-size: 1em;
   overflow: hidden; }
+
+ul {
+  background-color: black; }
 
 li {
   display: inline-block; }
@@ -31,39 +34,29 @@ select {
   background-color: black; }
 
 h1 {
-  margin: 5px;
-  font-size: 2em;
-  color: yellow;
-  text-shadow: -1px 1px white; }
+  font-size: 2em; }
 
 h2 {
-  margin: 5px;
-  font-size: 1.25em;
-  color: yellow;
-  text-shadow: -1px 1px grey; }
+  font-size: 1.25em; }
 
 hp {
-  margin: 5px;
-  font-size: 1.25em;
-  color: yellow;
-  text-shadow: -1px 1px black; }
+  font-size: 1.35em; }
 
 pop {
-  color: red;
-  font-size: 1.1em;
+  color: #ff5555;
+  font-size: 1.25em;
   font-weight: 700;
   margin: 5px 0; }
 
 popGreen {
-  color: lightgreen;
-  font-size: 1.1em;
+  color: #55bb55;
+  font-size: 1.25em;
   font-weight: 700;
   margin: 5px 0; }
 
 #battleLog {
-  height: 300px;
+  height: 250px;
   background-color: black;
-  overflow-y: scroll;
   padding: 10px 20px;
   text-align: center; }
 
@@ -73,14 +66,6 @@ popGreen {
 #btnClose {
   cursor: pointer;
   text-align: center; }
-
-.wrapper {
-  margin: 20px 0; }
-
-.playerCard {
-  text-align: center;
-  background-color: black;
-  padding: 20px; }
 
 #playerSetup {
   position: fixed;
@@ -109,17 +94,20 @@ popGreen {
   background-color: black;
   height: 100%; }
 
-.infoCard {
-  text-align: center;
-  border: 2px solid lightgrey;
-  background-color: lightblue;
-  width: 400px;
-  margin: 0 10px;
-  padding: 20px;
-  display: inline-block; }
+.buttonHover:hover {
+  outline: 3px solid yellow; }
 
-.is-hidden {
-  display: none; }
+.wrapper {
+  margin: 20px 0; }
+
+.playerCard {
+  text-align: center;
+  background-color: black;
+  padding: 20px; }
+
+.bigWinner {
+  width: 400px;
+  height: 500px; }
 
 .playerImage {
   width: 200px;
@@ -133,7 +121,14 @@ popGreen {
   border: 10px solid yellow;
   outline: 10px solid green; }
 
-/* The Modal (background) */
+.coolTextBro, h1, h2, hp {
+  margin: 5px;
+  color: yellow;
+  text-shadow: -1px 1px white; }
+
+.popTextBro, pop, popGreen {
+  text-shadow: -1px 1px yellow; }
+
 .modal {
   display: none;
   position: fixed;
@@ -145,16 +140,14 @@ popGreen {
   background-color: black;
   background-color: rgba(0, 0, 0, 0.4); }
 
-/* Modal Content/Box */
 .modal-content {
   background-color: black;
-  margin: 15% auto;
+  margin: 400px auto 0 auto;
   padding: 20px;
   border: 1px solid #888;
   height: 22%;
   width: 80%; }
 
-/* The Close Button */
 .close {
   color: #aaa;
   float: right;
@@ -176,10 +169,8 @@ popGreen {
   width: 100%; }
 
 .proggy {
+  margin-bottom: 5px;
   width: 100%;
   height: 30px; }
-
-.third-td {
-  height: 33%; }
 
 /*# sourceMappingURL=styles.css.map */
