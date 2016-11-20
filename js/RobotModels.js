@@ -23,7 +23,7 @@ Models.Johnny5 = function(){
   this.highDamage = 40;
 	this.name = "Johnny5";
 	this.skill = "Heat Vision";
-	this.url = "..res/johnny5.jpg";
+	this.url = "../battlebots_mjd_quiz_copy/res/johnny5.jpg";
 };
 Models.Johnny5.prototype = new MiniTank();
 
@@ -35,7 +35,7 @@ Models.WallE = function(){
   this.highDamage = 38;
 	this.name = "Wall-E";
 	this.skill = "Adoreableness";
-	this.url = "..res/WallE.jpg";
+	this.url = ".../battlebots_mjd_quiz_copy/res/WallE.jpg";
 };
 Models.WallE.prototype = new MiniTank();
 
