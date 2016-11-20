@@ -3,7 +3,9 @@
 let roundCounter = 0,
 		p1MaxHP = 666,
 		p2MaxHP = 666,
-		interval;
+		loc = window.location.pathname;
+
+const CURRENT_DIRECTORY = loc.substring(0, loc.lastIndexOf('/'));
 
 //import Robots object, and jquery
 let Robots = require('./Robot.js'),
@@ -86,8 +88,10 @@ function fight(){
 
 //Places a random background image in to battle arena
 function randomizeBG(){
+	console.log("loc", loc);
+	console.log("CURRENT_DIRECTORY", CURRENT_DIRECTORY);
 	let rndBG = Math.floor(Math.random() * 6) + 1;
-	let rndBGstr = `../res/backgrounds/mkbg${rndBG}.jpg`;
+	let rndBGstr = `${CURRENT_DIRECTORY}/res/backgrounds/mkbg${rndBG}.jpg`;
 	$('body').css('background-image', `url('${rndBGstr}')`);	
 }
 	
