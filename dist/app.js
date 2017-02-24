@@ -225,7 +225,7 @@ module.exports = BattleBots;
 "use strict";
 
 let Models = {};
-const CURRENT_PATH = window.location.href;
+const CURRENT_PATH = loc.substring(0, loc.lastIndexOf('/'));
 
 let RobotModel = function() {
   this.name = "ketchup robot";
