@@ -22,7 +22,7 @@ Models.Johnny5 = function(){
   this.highDamage = 60;
 	this.name = "Johnny5";
 	this.skill = "Heat Vision";
-	this.url = "./../res/johnny5.jpg";
+	this.url = "../res/johnny5.jpg";
 };
 Models.Johnny5.prototype = new MiniTank();
 
@@ -34,7 +34,7 @@ Models.WallE = function(){
   this.highDamage = 38;
 	this.name = "Wall-E";
 	this.skill = "Adoreableness";
-	this.url = "./../res/walle.jpg";
+	this.url = "../res/walle.jpg";
 };
 Models.WallE.prototype = new MiniTank();
 
@@ -53,7 +53,7 @@ Models.R2D2 = function(){
   this.highDamage = 80;
 	this.name = "R2D2";
 	this.skill = "Soldering Iron";
-	this.url = './../res/r2d2.jpg';
+	this.url = '../res/r2d2.jpg';
 };
 Models.R2D2.prototype = new Tripod();
 
@@ -65,7 +65,7 @@ Models.R2BRO2 = function(){
   this.highDamage = 70;
 	this.name = "R2BRO2";
 	this.skill = "Keg Chuck";
-	this.url = './../res/r2bro2.jpg';
+	this.url = '../res/r2bro2.jpg';
 };
 Models.R2BRO2.prototype = new Tripod();
 
@@ -84,7 +84,7 @@ Models.Bender = function(){
   this.highDamage = 70;
 	this.name = "Bender";
 	this.skill = "Bending";
-	this.url = './../res/bender.jpg';
+	this.url = '../res/bender.jpg';
 };
 Models.Bender.prototype = new Bipedal();
 
@@ -96,7 +96,7 @@ Models.BayMax = function(){
   this.highDamage = 50;
 	this.name = "BayMax";
 	this.skill = "Anti Heal";
-	this.url = './../res/baymax.jpg';
+	this.url = '../res/baymax.jpg';
 };
 Models.BayMax.prototype = new Bipedal();
 
