@@ -225,6 +225,7 @@ module.exports = BattleBots;
 "use strict";
 
 let Models = {};
+let loc = window.location.pathname;
 const CURRENT_PATH = loc.substring(0, loc.lastIndexOf('/'));
 
 let RobotModel = function() {
