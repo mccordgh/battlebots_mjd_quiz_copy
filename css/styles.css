@@ -109,7 +109,7 @@ popGreen {
 .playerCard {
   text-align: center;
   background-color: black;
-  padding: 20px; 
+  padding: 20px;
   font-size: 1.5em;}
 
 .bigWinner {
@@ -179,5 +179,26 @@ popGreen {
   margin-bottom: 5px;
   width: 100%;
   height: 30px; }
+
+@keyframes greenPulse {
+  from { border-color: #749a02; -webkit-box-shadow: 0 0 5rem #333; }
+  50% { border-color: #91bd09; -webkit-box-shadow: 0 0 8rem #91bd09; }
+  to { border-color: #749a02; -webkit-box-shadow: 0 0 5rem #333; }
+}
+
+@-webkit-keyframes greenPulse {
+  from { border-color: #749a02; -webkit-box-shadow: 0 0 5rem #333; }
+  50% { border-color: #91bd09; -webkit-box-shadow: 0 0 8rem #91bd09; }
+  to { border-color: #749a02; -webkit-box-shadow: 0 0 5rem #333; }
+}
+
+.buttonHover {
+  animation-name: greenPulse;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  -webkit-animation-name: greenPulse;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+}
 
 /*# sourceMappingURL=styles.css.map */
